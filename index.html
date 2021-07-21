@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filmy Adda</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+      integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="bootstrap.css" type="text/css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center mt-2" style="margin-bottom: 2px; font-weight: 900">
+        Filmy Adda
+      </h1>
+      <h6 class="text-center pt-0" style="font-weight: 700">
+        naam toh suna hi hoga....
+      </h6>
+      <form id="moviesearch" autocomplete="off" class="mt-4">
+        <div class="form-group">
+          <input
+            class="form-control text-center"
+            type="text"
+            id="movieName"
+            style="font-weight: bold;"
+            placeholder="Search for your Favourite Movie..."
+          />
+        </div>
+        <div class="form-group">
+          <button
+            style="display: block; width: 100%; font-weight: bold"
+            class="btn btn-dark mt-1 mx-auto"
+          >
+            Search Movie <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+      <div id="displayresult" class="mt-2">
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#moviesearch").submit(function (event) {
+          var apikey = "1e7a31b6";
+
+          event.preventDefault();
+
+          var moviename = $("#movieName").val();
+          var result = "";
+          var url =
+            "http://www.omdbapi.com/?apikey=" + apikey + "&t=" + moviename;
+          $.ajax({
+            method: "GET",
+            url: url,
+            success: function (data) {
+              console.log(data);
+
+              result = `
+                        
+                        <img id="movieimg" style="float:right" class="img-thumnail" width="300" height="300"  src="${data.Poster}" />
+                        <h1 class="mb-1 mr-5">${"Title:-"+data.Title}</h1>
+                        <h3 class="mb-1 mr-5">${"Rating:-"+data.imdbRating}</h3>
+                        <h3 class="mb-1 mr-5">${"Genre:-"+data.Genre}</h3>
+                        <h3 class="mb-1 mr-5">${"Language:-"+data.Language}</h3>
+                        <h3 class="mb-1 mr-5">${"Released:-"+data.Released}</h3>
+                        <h3 class="mb-1 mr-5">${"Director:-"+data.Director}</h3>
+                        <h3 class="mb-1 mr-5">${"Actors:-"+data.Actors}</h3>
+                       `;
+              $("#displayresult").html(result);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
